@@ -1,13 +1,12 @@
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.fail;
+import static org.junit.jupiter.api.Assertions.*;
 
 class VehicleExceptionTest {
 
     @Test()
     public void pickUpExceptionTest() {
-        try {
+        Exception exception = assertThrows(Exception.class, () -> {
             //arrange
             Vehicle testVehicle = new Car(5);
 
@@ -15,17 +14,15 @@ class VehicleExceptionTest {
             for (int i = 0; i < 10; i++) {
                 testVehicle.pickUp(new Person());
             }
-            fail();
-        }
-        catch (Exception e) {
-            //assert
-            assertEquals("all seats are occupied", e.getMessage());
-        }
+        });
+
+        //assert
+        assertEquals("all seats are occupied", exception.getMessage());
     }
 
     @Test()
     public void dropOffExceptionTest() {
-        try {
+        Exception exception = assertThrows(Exception.class, () -> {
             //arrange
             Vehicle testVehicle = new Car(5);
             for (int i = 0; i < 3; i++) {
@@ -35,11 +32,9 @@ class VehicleExceptionTest {
 
             //act
             testVehicle.dropOff(testPerson);
-            fail();
-        }
-        catch (Exception e) {
-            //assert
-            assertEquals("this passenger is not here", e.getMessage());
-        }
+        });
+
+        //assert
+        assertEquals("this passenger is not here", exception.getMessage());
     }
 }
