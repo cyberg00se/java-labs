@@ -25,8 +25,18 @@ public class Bank {
     public void transfer(Account from, Account to, int amount) {
         if(from == to)
             return;
-        synchronized(from){
-            synchronized(to){
+        Account firstForLock;
+        Account secondForLock;
+        if(from.hashCode() < to.hashCode()) {
+            firstForLock = from;
+            secondForLock = to;
+        }
+        else {
+            firstForLock = to;
+            secondForLock = from;
+        }
+        synchronized(firstForLock){
+            synchronized(secondForLock){
                 if(from.getBalance() - amount >= 0) {
                     from.withdraw(amount);
                     to.deposit(amount);
